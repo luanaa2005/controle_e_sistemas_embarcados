@@ -1,7 +1,6 @@
 # Módulo de Visão
 
-Este diretório contém os scripts e experimentos relacionados à visão computacional do projeto. O foco principal é detectar e rastrear uma linha azul capturada pela câmera, permitindo controle autônomo baseado em visão.
-
+Este diretório contém os scripts e experimentos relacionados à visão computacional do projeto. 
 ---
 
 ## Testes Realizados
