@@ -46,5 +46,3 @@ Esta é a função central do nó, acionada sempre que uma nova imagem é recebi
     * `point_msg.x` é preenchido com a `line_center_x` detectada. Se nenhuma linha for encontrada, `line_center_x` permanece como `-1.0`.
     * Opcionalmente, `point_msg.y` e `point_msg.z` podem ser preenchidos com a largura e altura da imagem, respectivamente, fornecendo mais contexto para o nó de controle.
     * A mensagem `point_msg` é então publicada no tópico `/drone/line_center`.
-
-

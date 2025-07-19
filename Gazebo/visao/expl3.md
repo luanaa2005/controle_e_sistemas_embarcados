@@ -45,6 +45,6 @@ Esta é a função principal do nó, executada a cada nova imagem recebida da c�
       * Se `detected_base_info` não for `None` (ou seja, uma base foi identificada), uma mensagem `geometry_msgs/Point` é criada.
       * `point_msg.x` recebe o tipo da base (o inteiro do `BaseType`).
       * `point_msg.y` e `point_msg.z` recebem as coordenadas X e Y do centro da base na imagem, respectivamente.
-      * A mensagem é publicada no tópico `/drone/base_data`.
+      * A mensagem é publicada no tópico `/drone/base_data`. 
       * A flag `self.base_detected_and_published` é definida como `True`, evitando republicações desnecessárias da mesma base.
 

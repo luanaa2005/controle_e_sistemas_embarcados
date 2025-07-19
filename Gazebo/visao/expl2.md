@@ -40,3 +40,4 @@ Esta é a função principal do nó, executada a cada nova imagem recebida da c�
       * A mensagem é então publicada no tópico `/drone/qr_code_data`.
       * A flag `self.qr_code_detected_and_published` é definida como `True`, garantindo que este QR Code não seja republicado desnecessariamente.
 
+---
