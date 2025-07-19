@@ -1,6 +1,4 @@
-Claro, aqui está o conteúdo formatado para um arquivo Markdown (`.md`).
 
----
 
 # Código do Nó de Controle Principal (`takeoff_node.py`) e Sua Comunicação
 
