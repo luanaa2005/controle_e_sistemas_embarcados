@@ -17,11 +17,5 @@ Este diretório contém os scripts e experimentos relacionados à visão computa
 
 ---
 
-## Códigos Validados
 
-| Script                        | Descrição                                            |
-|------------------------------|--------------------------------------------------------|
-| [`rastreamento_linha.py`](./Codigos_Validos/rastreamento_linha.py)    | [`rastreamento_linha.py`](./codigos_explicados/rastreamento_linha.md) |
-| `Leitura qrcode`         | Testes para calibrar a faixa HSV da cor azul.         |
-| `Leitura formas geométricas`           | Análise de vídeos gravados para testes sem câmera ao vivo. |
 

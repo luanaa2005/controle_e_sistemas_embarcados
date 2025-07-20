@@ -5,7 +5,7 @@
 
 ## Estrutura do Código
 
-O código é implementado como uma classe Python chamada `BaseDetector`, que herda de `rclpy.node.Node`, integrando-o perfeitamente ao ambiente ROS 2.
+O código é implementado como uma classe Python chamada `BaseDetector`, que herda de `rclpy.node.Node`, integrando-o ao ambiente ROS 2.
 
 ### 1\. Definição dos Tipos de Base
 

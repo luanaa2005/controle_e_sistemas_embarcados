@@ -39,6 +39,7 @@ Após a confirmação da entrega, o nó de controle pode comandar o pouso ou o r
 | Script                        | Descrição                                            |
 |------------------------------|--------------------------------------------------------|
 | [`takeoff_node.py`](./controle/takeoff_node.py)    | [`controle.py`](./controle/explicacao.md) |
+| [`carga_power.py`](./controle/carga_power.py)    | [`entrega.py`](./controle/explicacao_entrega.md) |
 | [`line_detector_node.py`](./visao/line_detector_node.py)         | [`linha.py`](./visao/expl1.md)     |
 | [`qr_code_detector_node.py`](./visao/qr_code_detector_node.py)         | [`qrcode.py`](./visao/expl2.md) |
 | [`base_detector_node.py`](./visao/base_detector_node.py)         | [`base.py`](./visao/expl3.md) |
