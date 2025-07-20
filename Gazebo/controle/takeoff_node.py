@@ -1,3 +1,4 @@
+
 import rclpy
 from rclpy.node import Node
 from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy, DurabilityPolicy
@@ -7,6 +8,7 @@ from px4_msgs.msg import TrajectorySetpoint
 from px4_msgs.msg import VehicleCommands
 from px4_msgs.msg import VehicleLocalPosition
 from px4_msgs.msg import VehicleStatus
+from std_msgs.msg import Bool # Adicionado para controle de energia da carga
 
 from geometry_msgs.msg import Point # Para receber informações da linha e QR/bases
 
@@ -45,6 +47,9 @@ class OffboardControl(Node):
             TrajectorySetpoint, '/fmu/in/trajectory_setpoint', qos_profile)
         self.vehicle_command_publisher = self.create_publisher(
             VehicleCommands, '/fmu/in/vehicle_commands', qos_profile)
+        # Publisher para controlar a energia da carga (simula soltura do pacote)
+        self.power_pub = self.create_publisher(Bool, '/drone/carga_power', 10)
+
 
         # Subscribers: Para receber dados do PX4 e dos nós de visão
         self.vehicle_local_position_subscriber = self.create_subscription(
@@ -67,6 +72,10 @@ class OffboardControl(Node):
         self.target_height = -1.5  # Altura de voo da missão (1.5 metros, Z negativo no NED)
         self.current_state = MissionState.INITIAL # Estado inicial da máquina de estados
 
+        # Atributos para controle de carga e posição de retorno
+        self.package_delivered = False # Flag para controlar a soltura do pacote
+        self.home_position = None # Armazena a posição (x, y) de decolagem para retorno
+
         # Atributos para dados de controle de visão (inicializados como None)
         self.line_center_x = None # Posição X da linha na imagem
         self.qr_code_info = None # Tupla: (ID do QR, pos_x_imagem, pos_y_imagem)
@@ -82,7 +91,7 @@ class OffboardControl(Node):
         self.delivery_target_y = 0.0
         self.delivery_target_z = 0.0 # Manter a altura de voo para a zona de entrega
 
-        # Ponto de pouso final (geralmente o ponto inicial do drone: 0,0,0)
+        # Ponto de pouso final (será a home_position + Z=0)
         self.landing_target_x = 0.0
         self.landing_target_y = 0.0
         self.landing_target_z = 0.0 
@@ -201,6 +210,10 @@ class OffboardControl(Node):
         """
         self.publish_offboard_control_mode() # Sempre publicar para manter o modo Offboard ativo
 
+        # Mantenha a carga energizada enquanto não entregar
+        # Se package_delivered for True, a carga será desenergizada
+        self.power_pub.publish(Bool(data=not self.package_delivered))
+
         # Captura a posição atual do drone para uso na lógica de estados
         current_x = self.vehicle_local_position.x
         current_y = self.vehicle_local_position.y
@@ -238,7 +251,8 @@ class OffboardControl(Node):
             
             # Transição: Altura alvo alcançada
             if abs(current_z - self.target_height) < 0.1: # Margem de erro de 10cm
-                self.get_logger().info("Altura alvo alcançada. Transicionando para HOVER_AT_ALTITUDE.")
+                self.home_position = (current_x, current_y) # Registra a posição de decolagem
+                self.get_logger().info(f"Altitude alvo alcançada. Base registrada em {self.home_position}. Transicionando para HOVER_AT_ALTITUDE.")
                 self.current_state = MissionState.HOVER_AT_ALTITUDE
                 self.start_hover_time = self.get_clock().now().nanoseconds / 1_000_000_000 # Marca o tempo para a pausa
 
@@ -330,6 +344,7 @@ class OffboardControl(Node):
                 
                 # Compara o tipo de base detectado com o tipo esperado
                 # (Assumindo que self.detected_base_info[0] é um string ou um enum que você mapeia para string)
+                # Você pode precisar ajustar a conversão de tipo aqui dependendo de como seu detector publica o tipo de base
                 if expected_base and str(self.detected_base_info[0]) == expected_base: 
                     self.get_logger().info(f"Base correta ({expected_base}) detectada! Transicionando para DROP_PACKAGE.")
                     self.current_state = MissionState.DROP_PACKAGE
@@ -342,20 +357,23 @@ class OffboardControl(Node):
 
         # Estado: DROP_PACKAGE (Soltar o Pacote)
         elif self.current_state == MissionState.DROP_PACKAGE:
-            self.get_logger().info("Estado: DROP_PACKAGE - Soltando pacote...")
-            # Enviar comando MAVLink para soltar o pacote (ajuste o comando e parâmetros para sua simulação/hardware)
-            # Exemplo: controle de servo (servo_num=8, pwm_value=1000us)
-            self.publish_vehicle_command(VehicleCommands.VEHICLE_CMD_DO_SET_SERVO, 8.0, 1000.0) 
-            self.get_logger().info("Comando de soltura enviado.")
-            time.sleep(2) # Pausa para simular o tempo de soltura
-            
+            self.get_logger().info("Estado: DROP_PACKAGE - Soltando pacote: cortando energia da carga.")
+            # Define a flag para True, o que fará com que power_pub publique False (cortando a energia)
+            self.package_delivered = True 
+            self.publish_trajectory_setpoint(current_x, current_y, self.target_height) # Mantém hover
+            time.sleep(2) # Pausa para simular o tempo de soltura e estabilização
+
             # Transição: Após soltar o pacote, iniciar o processo de pouso
             self.get_logger().info("Pacote solto. Transicionando para LANDING.")
             self.current_state = MissionState.LANDING
-            # O ponto de pouso já está definido no __init__ como 0,0,0
-            # Mas você pode redefinir aqui se precisar de um ponto de pouso dinâmico
-            self.landing_target_x = 0.0 # Ex: Coordenada X do ponto inicial
-            self.landing_target_y = 0.0 # Ex: Coordenada Y do ponto inicial
+            # Define o ponto de pouso para a posição de decolagem
+            if self.home_position:
+                self.landing_target_x = self.home_position[0] 
+                self.landing_target_y = self.home_position[1]
+            else:
+                self.get_logger().warn("Posição de decolagem não registrada! Pousando em (0,0).")
+                self.landing_target_x = 0.0
+                self.landing_target_y = 0.0
             self.landing_target_z = 0.0 # Z=0.0 para pousar no chão no NED
 
         # Estado: LANDING (Retorno para Ponto Inicial e Pouso)
@@ -397,4 +415,3 @@ def main(args=None):
 
 if __name__ == '__main__':
     main()
-
