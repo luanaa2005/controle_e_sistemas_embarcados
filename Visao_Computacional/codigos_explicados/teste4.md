@@ -1,6 +1,6 @@
 # Explicação do Código: Rastreamento de Linha Azul com Cálculo de Erro (OpenCV + HSV)
 
-Este script Python realiza o rastreamento de uma linha azul capturada pela webcam utilizando **OpenCV** e **NumPy**. Ele processa apenas a região inferior da imagem, detecta a linha azul com base na cor em HSV, calcula o centro da linha e determina o erro de posição em relação ao centro da imagem. Esse tipo de aplicação é comum em robótica, veículos autônomos e drones seguidores de trajetória.
+Este script Python realiza o rastreamento de uma linha azul capturada pela webcam utilizando **OpenCV** e **NumPy**. Ele processa apenas a região inferior da imagem, detecta a linha azul com base na cor em HSV, calcula o centro da linha e determina o erro de posição em relação ao centro da imagem. E
 
 ---
 

@@ -4,7 +4,7 @@
 
 ## Estrutura do Código
 
-O código é implementado como uma classe Python chamada `QRCodeDetector`, que herda de `rclpy.node.Node`, integrando-o perfeitamente ao ambiente ROS 2.
+O código é implementado como uma classe Python chamada `QRCodeDetector`, que herda de `rclpy.node.Node`, integrando-o ao ambiente ROS 2.
 
 ### 1\. Inicialização (`__init__`)
 
@@ -15,7 +15,7 @@ No construtor da classe `QRCodeDetector`:
       * O campo `x` da mensagem `Point` será usado para o **ID numérico do QR Code**.
       * Os campos `y` e `z` da mensagem `Point` armazenarão as **coordenadas X e Y do centro do QR Code na imagem**, respectivamente.
   * **`CvBridge`**: Uma instância de `CvBridge` é criada. Essa ponte é indispensável para converter mensagens de imagem ROS 2 (do tipo `sensor_msgs/Image`) para o formato de matrizes NumPy que o OpenCV utiliza para processamento.
-  * **Flag de Controle**: `self.qr_code_detected_and_published` é uma flag que garante que o nó publique as informações de um QR Code apenas uma vez. Isso evita o reprocessamento constante do mesmo QR Code, especialmente útil em cenários onde você só precisa da primeira detecção para progredir na missão.
+  * **Flag de Controle**: `self.qr_code_detected_and_published` é uma flag que garante que o nó publique as informações de um QR Code apenas uma vez.
 
 ### 2\. Callback de Imagem (`image_callback`)
 
