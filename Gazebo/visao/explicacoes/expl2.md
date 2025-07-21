@@ -10,7 +10,7 @@ O código é implementado como uma classe Python chamada `QRCodeDetector`, que h
 
 No construtor da classe `QRCodeDetector`:
 
-  * **Subscrição de Imagem**: O nó se inscreve no tópico da imagem da câmera, por padrão configurado para `/camera/image_raw`. **É vital que você verifique e ajuste este tópico** para que corresponda exatamente ao nome do tópico de imagem que a câmera do seu drone no Gazebo está publicando (use `ros2 topic list` para confirmar).
+  * **Subscrição de Imagem**: O nó se inscreve no tópico da imagem da câmera, por padrão configurado para `/camera/image_raw`. 
   * **Publicação de Dados do QR Code**: Um publicador é configurado para enviar mensagens do tipo `geometry_msgs/Point` para o tópico `/drone/qr_code_data`.
       * O campo `x` da mensagem `Point` será usado para o **ID numérico do QR Code**.
       * Os campos `y` e `z` da mensagem `Point` armazenarão as **coordenadas X e Y do centro do QR Code na imagem**, respectivamente.
