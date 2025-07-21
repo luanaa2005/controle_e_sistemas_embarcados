@@ -65,9 +65,3 @@ Duas janelas são exibidas:
 - Outra com a imagem binária (máscara da cor azul) mostrando apenas os pixels detectados.
 
 ---
-
-### 10. Encerramento
-
-O programa é encerrado ao pressionar a tecla `q`, garantindo que os recursos da câmera sejam liberados e as janelas de exibição fechadas corretamente.
-
----

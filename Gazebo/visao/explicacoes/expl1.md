@@ -8,7 +8,7 @@ O `line_detector_node.py` é um nó ROS 2 que consome dados de imagem da câmera
 
 Este nó será responsável por:
 
-* **Assinar tópicos de imagem**: Ele receberá os quadros de vídeo da câmera do drone (geralmente do tópico `/camera/image_raw` ou similar).
+* **Assinar tópicos de imagem**: Ele receberá os quadros de vídeo da câmera do drone.
 * **Processamento de Imagem**: Aplicará técnicas de visão computacional (como OpenCV) para identificar a linha azul. Isso pode envolver:
     * Conversão de espaço de cor (ex: BGR para HSV).
     * Definição de limiares de cor para isolar o azul.

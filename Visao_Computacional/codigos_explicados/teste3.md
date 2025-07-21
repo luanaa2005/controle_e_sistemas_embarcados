@@ -1,6 +1,6 @@
 # Rastreamento de Linha Azul com OpenCV
 
-Este projeto realiza o rastreamento de uma linha azul usando a webcam do computador. A técnica é baseada na detecção de cor no espaço HSV e no cálculo do centro da linha usando momentos da imagem.
+Este código realiza o rastreamento de uma linha azul usando a webcam do computador. A técnica é baseada na detecção de cor no espaço HSV e no cálculo do centro da linha usando momentos da imagem.
 
 
 ## Descrição do Funcionamento
