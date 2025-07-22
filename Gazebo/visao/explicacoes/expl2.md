@@ -4,18 +4,18 @@
 
 ## Estrutura do Código
 
-O código é implementado como uma classe Python chamada `QRCodeDetector`, que herda de `rclpy.node.Node`, integrando-o perfeitamente ao ambiente ROS 2.
+O código é implementado como uma classe Python chamada `QRCodeDetector`, que herda de `rclpy.node.Node`, integrando-o ao ambiente ROS 2.
 
 ### 1\. Inicialização (`__init__`)
 
 No construtor da classe `QRCodeDetector`:
 
-  * **Subscrição de Imagem**: O nó se inscreve no tópico da imagem da câmera, por padrão configurado para `/camera/image_raw`. **É vital que você verifique e ajuste este tópico** para que corresponda exatamente ao nome do tópico de imagem que a câmera do seu drone no Gazebo está publicando (use `ros2 topic list` para confirmar).
+  * **Subscrição de Imagem**: O nó se inscreve no tópico da imagem da câmera, por padrão configurado para `/camera/image_raw`. 
   * **Publicação de Dados do QR Code**: Um publicador é configurado para enviar mensagens do tipo `geometry_msgs/Point` para o tópico `/drone/qr_code_data`.
       * O campo `x` da mensagem `Point` será usado para o **ID numérico do QR Code**.
       * Os campos `y` e `z` da mensagem `Point` armazenarão as **coordenadas X e Y do centro do QR Code na imagem**, respectivamente.
   * **`CvBridge`**: Uma instância de `CvBridge` é criada. Essa ponte é indispensável para converter mensagens de imagem ROS 2 (do tipo `sensor_msgs/Image`) para o formato de matrizes NumPy que o OpenCV utiliza para processamento.
-  * **Flag de Controle**: `self.qr_code_detected_and_published` é uma flag que garante que o nó publique as informações de um QR Code apenas uma vez. Isso evita o reprocessamento constante do mesmo QR Code, especialmente útil em cenários onde você só precisa da primeira detecção para progredir na missão.
+  * **Flag de Controle**: `self.qr_code_detected_and_published` é uma flag que garante que o nó publique as informações de um QR Code apenas uma vez.
 
 ### 2\. Callback de Imagem (`image_callback`)
 

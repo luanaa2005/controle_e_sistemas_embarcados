@@ -10,7 +10,7 @@ Este script Python realiza duas tarefas principais:
 
 ### 1. Geração de QR Codes
 
-Antes de iniciar a leitura com a câmera, o código gera automaticamente três QR Codes com os valores "1", "2" e "3", salvando-os como imagens PNG. Isso é feito com a biblioteca `qrcode`, útil para testes locais.
+Antes de iniciar a leitura com a câmera, o código gera automaticamente três QR Codes com os valores "1", "2" e "3", salvando-os como imagens PNG. Isso é feito com a biblioteca `qrcode`.
 
 ---
 
@@ -25,7 +25,7 @@ A webcam é iniciada com `cv2.VideoCapture(0)`, e o laço principal começa a ca
 O código utiliza o `cv2.QRCodeDetector()` para detectar e decodificar automaticamente qualquer QR Code presente no frame. Esse detector retorna três informações:
 - O valor decodificado do QR Code.
 - Os pontos (vértices) do QR Code detectado.
-- A imagem transformada, se necessário (não usada neste script).
+- A imagem transformada, se necessário.
 
 ---
 

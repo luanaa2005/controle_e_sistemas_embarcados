@@ -9,13 +9,13 @@ O código é implementado como uma classe Python chamada `BaseDetector`, que her
 
 ### 1\. Definição dos Tipos de Base
 
-A classe `BaseType` é um enumerador que mapeia nomes legíveis para números inteiros (por exemplo, `SQUARE_BROWN = 1`). Esses inteiros são usados para identificar o tipo de base nas mensagens ROS 2, garantindo consistência com o `takeoff_node.py`. Você pode expandir esta lista com outros tipos de formas e cores conforme necessário para sua missão.
+A classe `BaseType` é um enumerador que mapeia nomes legíveis para números inteiros (por exemplo, `SQUARE_BROWN = 1`). Esses inteiros são usados para identificar o tipo de base nas mensagens ROS 2, garantindo consistência com o `takeoff_node.py`. 
 
 ### 2\. Inicialização (`__init__`)
 
 No construtor da classe `BaseDetector`:
 
-  * **Subscrição de Imagem**: O nó se inscreve no tópico da imagem da câmera (definido por padrão como `/camera/image_raw`). **É fundamental que você verifique e ajuste este tópico** para que corresponda exatamente ao nome do tópico de imagem que a câmera do seu drone no Gazebo está publicando (use `ros2 topic list` para confirmar).
+  * **Subscrição de Imagem**: O nó se inscreve no tópico da imagem da câmera (definido por padrão como `/camera/image_raw`). 
   * **Publicação de Dados da Base**: Um publicador é configurado para enviar mensagens do tipo `geometry_msgs/Point` para o tópico `/drone/base_data`.
       * O campo `x` da mensagem `Point` conterá o **tipo de base** (o inteiro mapeado de `BaseType`).
       * Os campos `y` e `z` da mensagem `Point` armazenarão as **coordenadas X e Y do centro da base na imagem**, respectivamente.
@@ -29,7 +29,7 @@ Esta é a função principal do nó, executada a cada nova imagem recebida da c�
   * **Controle de Publicação**: Primeiramente, verifica `self.base_detected_and_published`. Se já detectou e publicou uma base, o processamento da imagem é ignorado, otimizando o uso de recursos.
   * **Conversão da Imagem**: A imagem recebida (no formato ROS) é convertida para uma imagem OpenCV no espaço de cores BGR (Azul, Verde, Vermelho).
   * **Conversão para HSV**: A imagem é convertida para o espaço de cores **HSV (Hue, Saturation, Value)**. Este espaço de cores é preferível para a detecção de cores, pois é menos sensível a variações de iluminação do que o BGR/RGB.
-  * **Definição de Limites de Cores HSV**: São definidos arrays NumPy (`lower_` e `upper_`) para as cores específicas de cada base (marrom, azul, vermelho). Esses limites definem o intervalo HSV que corresponde a cada cor. **É crucial que esses valores sejam calibrados** para o seu ambiente específico, pois a tonalidade das cores no simulador/realidade e as condições de iluminação podem variar.
+  * **Definição de Limites de Cores HSV**: São definidos arrays NumPy (`lower_` e `upper_`) para as cores específicas de cada base (marrom, azul, vermelho). Esses limites definem o intervalo HSV que corresponde a cada cor. 
       * **Observação para o Vermelho**: A cor vermelha em HSV é dividida em dois intervalos, um próximo a 0 e outro próximo a 180. Ambas as máscaras devem ser criadas e depois combinadas (`cv2.add`) para cobrir todo o espectro do vermelho.
   * **Detecção de Formas e Cores (Lógica Corrigida)**: O código itera através das máscaras de cor, procurando contornos para identificar as formas. A lógica agora garante que o `break` seja usado corretamente dentro do `for` loop, e que a procura por outras bases cesse assim que uma base válida é encontrada.
     1.  **Criação de Máscara de Cor**: `cv2.inRange()` é usada para isolar pixels dentro do intervalo de cor HSV definido, criando uma máscara binária (branco para a cor desejada, preto para o resto).

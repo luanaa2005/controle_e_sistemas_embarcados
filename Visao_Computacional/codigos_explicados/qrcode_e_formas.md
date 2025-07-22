@@ -34,17 +34,3 @@ Este programa realiza duas etapas:
   - A forma geométrica é classificada como triângulo, quadrado/retângulo ou hexágono, conforme o número de vértices.
 - Se a forma e a cor detectadas correspondem àquelas definidas pelo QR Code, o contorno é destacado em verde na imagem, e o programa indica que o alvo foi detectado com sucesso, exibindo o resultado.
 
-### 3. Controle e encerramento
-
-- O programa exibe o vídeo processado em tempo real, mostrando a detecção das formas.
-- A tecla ESC encerra a execução a qualquer momento.
-- Após detectar com sucesso o alvo, o programa também encerra, liberando os recursos da webcam e fechando as janelas abertas.
-
----
-
-## Resumo
-
-Este código combina leitura de QR Code com processamento de imagens para buscar, ao vivo, uma forma geométrica colorida específica definida pelo código. Ele usa técnicas de detecção de contornos, análise da forma geométrica pelo número de vértices e identificação da cor dominante no espaço HSV para reconhecer os objetos desejados na cena capturada pela webcam.
-
----
-

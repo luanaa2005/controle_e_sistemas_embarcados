@@ -25,14 +25,3 @@ Esta função realiza o processo de armar o drone e decolar até a altitude dese
 - Aguarda até que o modo seja confirmado como `LAND` e imprime mensagens informativas.
 
 ---
-
-## Resumo
-
-O código demonstra um fluxo básico para controlar um drone via DroneKit:
-
-- Conexão ao veículo (simulado ou real),
-- Armar e decolar até uma altitude segura,
-- Alterar o modo para pouso automático.
-
----
-

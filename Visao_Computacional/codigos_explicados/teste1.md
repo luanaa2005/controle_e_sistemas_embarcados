@@ -31,10 +31,3 @@ São abertas duas janelas:
 - `Tracking`: mostra o vídeo com o retângulo ao redor do objeto azul detectado.
 - `Binary`: mostra a imagem binária com a máscara aplicada à faixa de cor azul.
 
-### ⌨6. Encerramento
-O programa continua rodando até que a tecla `'q'` seja pressionada. Após isso:
-- A câmera é liberada com `camera.release()`.
-- As janelas abertas são fechadas com `cv2.destroyAllWindows()`.
-
----
-

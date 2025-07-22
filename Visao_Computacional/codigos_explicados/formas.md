@@ -1,6 +1,6 @@
 # Explicação do Código de Detecção de Formas e Cores com OpenCV
 
-Este captura imagens da webcam em tempo real e as processa para detectar formas geométricas específicas, como triângulo, quadrado e hexágono, além de identificar a cor dessas formas.
+Este código captura imagens da webcam em tempo real e as processa para detectar formas geométricas específicas, como triângulo, quadrado e hexágono, além de identificar a cor dessas formas.
 
 O funcionamento do código segue as seguintes etapas:
 
